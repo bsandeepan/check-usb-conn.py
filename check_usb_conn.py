@@ -12,9 +12,9 @@ import subprocess
 
 __version__ = "1.0.0"
 __author__ = "Sandeepan Bhattacharyya <bsandeepan95.work@gmail.com>"
-__copyright__ = "Copyright 2019, Sandeepan Bhattacharyya"
+__copyright__ = "Copyright (c) 2019 Sandeepan Bhattacharyya"
 __credits__ = ["Sandeepan Bhattacharyya", "Sandeepan Sengupta"]
-__license__ = ""
+__license__ = "MIT License"
 __maintainer__ = "Sandeepan Bhattacharyya"
 __email__ = "bsandeepan95.work@gmail.com"
 __status__ = "Production"
