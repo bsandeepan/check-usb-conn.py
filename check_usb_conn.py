@@ -7,10 +7,11 @@
     features to it and will try to make it cross-platform compatible(Ahem!).
 """
 
-from re import compile, I
+import re
+import sys
 import subprocess
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"
 __author__ = "Sandeepan Bhattacharyya <bsandeepan95.work@gmail.com>"
 __copyright__ = "Copyright (c) 2019 Sandeepan Bhattacharyya"
 __credits__ = ["Sandeepan Bhattacharyya", "Sandeepan Sengupta"]
@@ -25,8 +26,8 @@ def is_usb_connected(device_id):
         If found, return TRUE, else FALSE. provide DEVICE_ID as found in
         terminal i.e. in 'vid:pid' format. Example: '12da:b65c'.
     """
-    device_re = compile("Bus\s+(?P<bus>\d+)\s+Device\s+(?P<device>\d+)."
-                           "+ID\s(?P<id>\w+:\w+)\s(?P<tag>.+)$", I)
+    device_re = re.compile("Bus\s+(?P<bus>\d+)\s+Device\s+(?P<device>\d+)."
+                           "+ID\s(?P<id>\w+:\w+)\s(?P<tag>.+)$", re.I)
     device_list = subprocess.check_output("lsusb")
 
     for i in device_list.split('\n'):
@@ -35,20 +36,25 @@ def is_usb_connected(device_id):
             if info:
                 dinfo = info.groupdict()
                 if dinfo['id'] == device_id:
-                    # found hence true
                     return True
     # for loop ended without return, hence not found so false
     return False
 
 
 if __name__ == "__main__":
-    # use this variable or whatever for maintaining desired device id
-    required_device_id = '0781:5567'
+    # store device id (ex: required_device_id = '0781:5567')
+    if len(sys.argv) >= 2 and ':' in sys.argv[1]:
+        # if device ID is given as cmd arg, read it
+        required_device_id = sys.argv[1]
+    else:
+        # else ask user to provide it
+        print ("Enter the usb device ID in 'VID:PID' format below:")
+        required_device_id = sys.stdin.readline().rstrip()
 
-    # use this code inside for loop
+    # check if the usb device is connected or not
     if is_usb_connected(required_device_id):
-        print("Is connected")
+        print("USB device is connected.")
         # or run the code
     else:
-        print("not found")
+        print("USB device is not found.")
         # or exit the program
